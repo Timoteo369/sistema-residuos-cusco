@@ -15,8 +15,14 @@ function App() {
     <BrowserRouter>
       <div className="app-container">
         <nav className="navbar">
-          <h2>Sistema Residuos Cusco</h2>
-
+          <div className="brand">
+            <div className="brand-icon">SR</div>
+            <div>
+              <h2>Sistema Residuos Cusco</h2>
+              <span>Gestión ambiental urbana</span>
+            </div>
+          </div>
+          
           <div className="nav-links">
             {token ? (
               <>
