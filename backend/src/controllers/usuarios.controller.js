@@ -100,7 +100,15 @@ const loginUsuario = async (req, res) => {
   }
 };
 
+const obtenerPerfil = async (req, res) => {
+  res.json({
+    mensaje: "Perfil obtenido correctamente",
+    usuario: req.usuario,
+  });
+};
+
 module.exports = {
   registrarUsuario,
   loginUsuario,
+  obtenerPerfil,
 };
