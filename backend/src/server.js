@@ -3,6 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const zonasRoutes = require("./routes/zonas.routes");
+const usuariosRoutes = require("./routes/usuarios.routes");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/zonas", zonasRoutes);
+app.use("/api/usuarios", usuariosRoutes);
 
 const PORT = process.env.PORT || 3000;
 
