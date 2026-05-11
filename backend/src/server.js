@@ -6,6 +6,7 @@ const zonasRoutes = require("./routes/zonas.routes");
 const usuariosRoutes = require("./routes/usuarios.routes");
 const horariosRoutes = require("./routes/horarios.routes");
 const incidenciasRoutes = require("./routes/incidencias.routes");
+const residuosRoutes = require("./routes/residuos.routes");
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use("/api/zonas", zonasRoutes);
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/horarios", horariosRoutes);
 app.use("/api/incidencias", incidenciasRoutes);
+app.use("/api/residuos", residuosRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 
