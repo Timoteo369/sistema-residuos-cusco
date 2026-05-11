@@ -5,6 +5,7 @@ require("dotenv").config();
 const zonasRoutes = require("./routes/zonas.routes");
 const usuariosRoutes = require("./routes/usuarios.routes");
 const horariosRoutes = require("./routes/horarios.routes");
+const incidenciasRoutes = require("./routes/incidencias.routes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 app.use("/api/zonas", zonasRoutes);
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/horarios", horariosRoutes);
+app.use("/api/incidencias", incidenciasRoutes);
 
 const PORT = process.env.PORT || 3000;
 
