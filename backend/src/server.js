@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const zonasRoutes = require("./routes/zonas.routes");
+
 const app = express();
 
 app.use(cors());
@@ -12,6 +14,8 @@ app.get("/", (req, res) => {
     mensaje: "API del Sistema de Gestión de Residuos Sólidos en Cusco funcionando correctamente",
   });
 });
+
+app.use("/api/zonas", zonasRoutes);
 
 const PORT = process.env.PORT || 3000;
 
