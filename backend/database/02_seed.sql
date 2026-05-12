@@ -19,3 +19,7 @@ INSERT INTO horarios (dia, hora_inicio, hora_fin, id_zona, id_residuo) VALUES
 ('Miercoles', '08:00', '10:00', 2, 1),
 ('Jueves', '08:00', '10:00', 2, 3),
 ('Viernes', '06:30', '08:30', 3, 4);
+
+-- Contraseña encriptada para 'admin123'
+INSERT INTO usuarios (nombre, correo, contrasena, rol, id_zona) VALUES
+('Administrador Principal', 'admin@residuos.com', '$2a$10$Uv67oM/qKpwV8b0H7.i4Kue2GgYhQvI.6tS0E5F/1o3e7oX0R.i/i', 'administrador', 1);
