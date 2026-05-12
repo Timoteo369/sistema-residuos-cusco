@@ -6,10 +6,12 @@ import Zonas from "./pages/Zonas";
 import Residuos from "./pages/Residuos";
 import Horarios from "./pages/Horarios";
 import Incidencias from "./pages/Incidencias";
+import Usuarios from "./pages/Usuarios";
 import "./styles/app.css";
 
 function App() {
   const token = localStorage.getItem("token");
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
 
   return (
     <BrowserRouter>
@@ -31,6 +33,9 @@ function App() {
                 <Link to="/residuos">Residuos</Link>
                 <Link to="/horarios">Horarios</Link>
                 <Link to="/incidencias">Incidencias</Link>
+                {usuario?.rol === 'administrador' && (
+                  <Link to="/panel/usuarios">Usuarios</Link>
+                )}
                 <button
                   onClick={() => {
                     localStorage.removeItem("token");
@@ -60,6 +65,7 @@ function App() {
             <Route path="/residuos" element={token ? <Residuos /> : <Navigate to="/login" />} />
             <Route path="/horarios" element={token ? <Horarios /> : <Navigate to="/login" />} />
             <Route path="/incidencias" element={token ? <Incidencias /> : <Navigate to="/login" />} />
+            <Route path="/panel/usuarios" element={token && usuario?.rol === 'administrador' ? <Usuarios /> : <Navigate to="/panel" />} />
           </Routes>
         </main>
       </div>

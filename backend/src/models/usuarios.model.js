@@ -20,7 +20,32 @@ const crearUsuario = async ({ nombre, correo, contrasena, rol, id_zona }) => {
   return result.rows[0];
 };
 
+const obtenerTodosUsuarios = async (rolFiltro) => {
+  let query = "SELECT id_usuario, nombre, correo, rol, id_zona FROM usuarios";
+  const params = [];
+
+  if (rolFiltro) {
+    query += " WHERE rol = $1";
+    params.push(rolFiltro);
+  }
+
+  query += " ORDER BY id_usuario DESC";
+
+  const result = await pool.query(query, params);
+  return result.rows;
+};
+
+const actualizarRolUsuario = async (id_usuario, nuevo_rol) => {
+  const result = await pool.query(
+    "UPDATE usuarios SET rol = $1 WHERE id_usuario = $2 RETURNING id_usuario, nombre, correo, rol, id_zona",
+    [nuevo_rol, id_usuario]
+  );
+  return result.rows[0];
+};
+
 module.exports = {
   buscarUsuarioPorCorreo,
   crearUsuario,
+  obtenerTodosUsuarios,
+  actualizarRolUsuario,
 };

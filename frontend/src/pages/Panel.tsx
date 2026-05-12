@@ -80,6 +80,18 @@ function Panel() {
             acumulación de residuos y fortalecer la gestión ambiental urbana en Cusco.
           </p>
         </div>
+
+        {usuario?.rol === "administrador" && (
+          <div className="info-card" style={{ borderLeft: '4px solid #1565c0' }}>
+            <div className="icon-box">👥</div>
+            <h3>Gestión de Usuarios</h3>
+            <p>
+              Administra los usuarios de la plataforma, asigna roles de administrador
+              o ciudadano.
+            </p>
+            <Link className="card-link" to="/panel/usuarios">Gestionar usuarios</Link>
+          </div>
+        )}
       </section>
 
       <section className="dashboard-section">
