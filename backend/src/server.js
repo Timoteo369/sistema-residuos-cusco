@@ -10,12 +10,17 @@ const residuosRoutes = require("./routes/residuos.routes");
 
 const app = express();
 
-app.use(cors());
+const corsOptions = process.env.FRONTEND_URL
+  ? { origin: process.env.FRONTEND_URL }
+  : {};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
-    mensaje: "API del Sistema de Gestión de Residuos Sólidos en Cusco funcionando correctamente",
+    mensaje:
+      "API del Sistema de Gestion de Residuos Solidos en Cusco funcionando correctamente",
   });
 });
 
@@ -25,9 +30,12 @@ app.use("/api/horarios", horariosRoutes);
 app.use("/api/incidencias", incidenciasRoutes);
 app.use("/api/residuos", residuosRoutes);
 
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor backend ejecutandose en http://localhost:${PORT}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Servidor backend ejecutándose en http://localhost:${PORT}`);
-});
+module.exports = app;
