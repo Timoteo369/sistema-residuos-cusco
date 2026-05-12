@@ -12,6 +12,14 @@ function Residuos() {
   const [residuos, setResiduos] = useState<Residuo[]>([]);
   const [tipo, setTipo] = useState("todos");
   const [mensaje, setMensaje] = useState("");
+  
+  const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [nuevoResiduo, setNuevoResiduo] = useState({
+    nombre: "",
+    tipo: "organico",
+    descripcion: ""
+  });
+  const [mensajeForm, setMensajeForm] = useState({ texto: "", esError: false });
 
   const cargarResiduos = async (tipoSeleccionado: string) => {
     try {
@@ -32,6 +40,22 @@ function Residuos() {
   useEffect(() => {
     cargarResiduos(tipo);
   }, [tipo]);
+
+  const registrarResiduo = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await api.post("/residuos", nuevoResiduo);
+      setMensajeForm({ texto: "Residuo registrado correctamente.", esError: false });
+      setNuevoResiduo({ nombre: "", tipo: "organico", descripcion: "" });
+      setMostrarFormulario(false);
+      cargarResiduos(tipo); // recargar la lista
+    } catch (error: any) {
+      setMensajeForm({ 
+        texto: error.response?.data?.mensaje || "Error al registrar residuo", 
+        esError: true 
+      });
+    }
+  };
 
   const totalOrganicos = residuos.filter((r) => r.tipo === "organico").length;
   const totalReciclables = residuos.filter((r) => r.tipo === "reciclable").length;
@@ -57,7 +81,64 @@ function Residuos() {
           Consulta los residuos registrados y su clasificación para promover una
           segregación responsable: orgánicos, reciclables y no reciclables.
         </p>
+        <button 
+          className="button" 
+          onClick={() => {
+            setMostrarFormulario(!mostrarFormulario);
+            setMensajeForm({ texto: "", esError: false });
+          }}
+          style={{ marginTop: '1rem' }}
+        >
+          {mostrarFormulario ? "Cancelar" : "Registrar Nuevo Residuo"}
+        </button>
       </section>
+
+      {mostrarFormulario && (
+        <section className="content-card" style={{ marginBottom: '2rem' }}>
+          <h2>Registrar Residuo</h2>
+          {mensajeForm.texto && (
+            <p className={mensajeForm.esError ? "error" : "success"} style={{ color: mensajeForm.esError ? 'red' : 'green', marginBottom: '1rem' }}>
+              {mensajeForm.texto}
+            </p>
+          )}
+          <form className="form" onSubmit={registrarResiduo}>
+            <div className="form-group">
+              <label>Nombre del Residuo</label>
+              <input
+                type="text"
+                required
+                value={nuevoResiduo.nombre}
+                onChange={(e) => setNuevoResiduo({ ...nuevoResiduo, nombre: e.target.value })}
+                placeholder="Ej. Botellas de vidrio"
+              />
+            </div>
+            <div className="form-group">
+              <label>Tipo de Clasificación</label>
+              <select
+                required
+                value={nuevoResiduo.tipo}
+                onChange={(e) => setNuevoResiduo({ ...nuevoResiduo, tipo: e.target.value })}
+              >
+                <option value="organico">Orgánico</option>
+                <option value="reciclable">Reciclable</option>
+                <option value="no_reciclable">No reciclable</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Descripción</label>
+              <textarea
+                required
+                rows={3}
+                value={nuevoResiduo.descripcion}
+                onChange={(e) => setNuevoResiduo({ ...nuevoResiduo, descripcion: e.target.value })}
+                placeholder="Breve descripción del residuo"
+                style={{ padding: '0.8rem', border: '1px solid var(--border)', borderRadius: '4px', resize: 'vertical' }}
+              />
+            </div>
+            <button type="submit" className="button button-primary">Guardar Residuo</button>
+          </form>
+        </section>
+      )}
 
       <section className="stats-grid">
         <div className="stat-card">
